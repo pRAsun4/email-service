@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 // POST route
 app.post("/send-email", async (req, res) => {
-  const { name, email, message, number } = req.body;
+  const { name, email, number } = req.body;
 
   if (!name || !email || !number) {
     return res.status(400).json({ error: "All fields are required." });
@@ -44,7 +44,7 @@ app.post("/send-email", async (req, res) => {
 
     // Send acknowledgment to user
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+      from: `"${name}" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: "Thank you for contacting us",
       text: `Hello ${name},\n\nThank you for reaching out! We will get back to you shortly.\n\nBest regards,\nEdusquare Team`,
